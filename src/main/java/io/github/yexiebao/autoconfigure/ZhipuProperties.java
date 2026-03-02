@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ZhipuProperties {
 
     /** 智谱 AI API Key  */
-    private String apiKey = "abad7486c2e04dee927996deffa22f34.UF0LFPoSCqvSIaBl";
+    private String apiKey = "Your_key";
 
     /** 智谱 AI API 基础地址 (V4 接口) */
     private String baseUrl = "https://open.bigmodel.cn/api/paas";
