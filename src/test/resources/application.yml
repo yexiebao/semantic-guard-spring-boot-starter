@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    # 本地 PostgreSQL 连接信息（用于跑 VectorDataImportTest）
+    # 注意：请确认你的数据库名与端口是否一致；这里按你给的示例配置
+    url: jdbc:postgresql://localhost:5432/semantic_guard_db
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+# Starter 自身的配置（测试时只需要把智谱 key 配好即可）
+semantic-guard:
+  enabled: true
+  threshold: 0.85
+  zhipu:
+    # 建议用环境变量注入，避免把 key 写进仓库
+    api-key: abad7486c2e04dee927996deffa22f34.UF0LFPoSCqvSIaBl
+    base-url: https://open.bigmodel.cn/api/paas
+    model-name: embedding-2
+
+

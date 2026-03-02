@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.yexeibao</groupId>
+    <artifactId>semantic-guard-spring-boot-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>semantic-guard-spring-boot-starter</name>
+    <description>基于pgvector与DFA算法的语义敏感词检测组件</description>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!--
+    dependencies 是 Maven 的核心配置节，用于声明当前项目直接依赖的所有库
+    这些依赖会被下载并添加到项目的类路径中，供代码直接使用
+-->
+    <dependencies>
+        <!--
+            Spring Boot 自动配置核心依赖
+            作用：提供 Spring Boot 最核心的自动配置功能，根据类路径中的依赖、配置文件等
+            自动完成 Spring 应用的配置，无需手动编写大量 XML 或 Java 配置类
+            这是 Spring Boot "约定优于配置" 核心特性的实现基础
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <!-- 依赖的 artifactId，唯一标识该依赖包 -->
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <!-- 版本号：此处未显式指定，因为下方通过 dependencyManagement 统一管理了 Spring Boot 版本 -->
+        </dependency>
+
+        <!--
+            Spring Boot JDBC 启动器依赖
+            作用：整合了 JDBC 相关的核心依赖（如 spring-jdbc、HikariCP 连接池等）
+            提供了便捷的数据库访问能力，自动配置数据源、JdbcTemplate 等核心组件
+            引入后可直接使用 JdbcTemplate 操作数据库，无需手动配置数据源和连接池
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!--
+            Spring Boot 配置处理器
+            作用：为 application.properties/yml 等配置文件提供自动补全、参数提示功能
+            optional=true：表示该依赖仅在当前项目编译时生效，不会传递给依赖当前项目的其他项目
+            主要用于开发阶段提升配置体验，生产环境无需此依赖
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <!-- optional：标记依赖为可选，不参与依赖传递 -->
+            <optional>true</optional>
+        </dependency>
+
+        <!--
+            Lombok 依赖
+            作用：通过注解（如 @Data、@Getter、@Setter、@Slf4j 等）简化 Java 类的编写
+            自动生成 getter/setter、toString、equals/hashCode 等方法，减少样板代码
+            optional=true：避免将 Lombok 传递给依赖当前项目的其他项目，防止冲突
+        -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- OkHttp（调用智谱Embedding接口） -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.12.0</version>
+        </dependency>
+        <!-- Gson（JSON序列化/反序列化） -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <!-- 测试依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--
+            PostgreSQL JDBC 驱动（仅测试阶段使用）
+            说明：
+            - Starter 本身不应强依赖具体数据库驱动，以保持轻量化
+            - 但测试用例需要直连 PostgreSQL + pgvector，因此在 test scope 引入
+         -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+        dependencyManagement：Maven 依赖管理配置节
+        作用：统一管理项目中所有依赖的版本号，避免版本冲突
+        在此处声明的依赖不会自动引入项目，仅提供版本约束；子模块或当前项目的 dependencies 中
+        引用该依赖时，无需指定版本号，会自动使用此处声明的版本
+    -->
+    <dependencyManagement>
+        <dependencies>
+            <!--
+                Spring Boot 依赖版本管理父 POM
+                作用：引入 Spring Boot 官方维护的所有核心依赖的版本号，统一管控版本
+                scope=import：特殊的作用域，仅用于 dependencyManagement 中，将外部 POM 的依赖管理
+                配置导入到当前项目中，相当于继承了该 POM 的版本管理规则
+                type=pom：表示该依赖是一个 POM 类型的构件（而非 jar）
+                version=2.7.18：指定 Spring Boot 的版本，所有 Spring Boot 相关依赖都会使用此版本
+            -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.7.18</version>
+                <!-- type：依赖的类型，pom 表示这是一个项目对象模型文件 -->
+                <type>pom</type>
+                <!-- scope=import：仅在 dependencyManagement 中生效，导入外部版本管理 -->
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
