@@ -1,5 +1,7 @@
 # semantic-guard-spring-boot-starter
 
+**License: MIT** (`LICENSE` file in repo root)
+
 一个**通用、可插拔、跨向量模型**的「语义敏感词过滤」Spring Boot Starter。它把“向量模型（Embedding）”与“向量存储（pgvector/内存）”做了解耦，适合做成开源组件接入任意业务系统。
 
 A **generic, pluggable, model-agnostic** semantic sensitive-word filtering Spring Boot Starter. It decouples the embedding model from the vector store (pgvector / in-memory), making it easy to integrate into any backend.
