@@ -2,9 +2,9 @@
 
 **License: MIT** (`LICENSE` file in repo root)
 
-一个**通用、可插拔、跨向量模型**的「语义敏感词过滤」Spring Boot Starter。它把“向量模型（Embedding）”与“向量存储（pgvector/内存）”做了解耦，适合做成开源组件接入任意业务系统。
+一个**通用、可插拔、跨向量模型**的「语义敏感词过滤」Spring Boot Starter，解耦“向量模型（Embedding）”与“向量存储（pgvector/内存）”，支持 DFA 硬匹配 + 向量语义双检测，可快速接入任意 Java 业务系统。目前处于开发中，欢迎提交 PR/Issue 共同完善。
 
-A **generic, pluggable, model-agnostic** semantic sensitive-word filtering Spring Boot Starter. It decouples the embedding model from the vector store (pgvector / in-memory), making it easy to integrate into any backend.
+A **generic, pluggable, model-agnostic** semantic sensitive-word filtering Spring Boot Starter.It decouples "vector models (Embedding)" from "vector storage (pgvector/in-memory)", supports dual detection with DFA hard matching + vector semantics, and can be quickly integrated into any Java business system. Currently under active development, PRs and Issues are welcome for joint improvement.
 
 ---
 
